@@ -18,6 +18,8 @@ io.on('connection', function(socket) {
 
   console.log(`${pseudo} s'est connecté !`)
 
+  socket.emit('messages', messages)
+
   socket.on('message', function(value) {
     const data = {
       avatar: avatar,
@@ -26,7 +28,7 @@ io.on('connection', function(socket) {
       date: Date.now()
     }
     messages.push(data)
-    io.emit('messages', data)
+    io.emit('message', data)
   })
 
   socket.on('disconnect', function () {

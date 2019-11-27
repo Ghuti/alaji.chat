@@ -8,7 +8,20 @@ function getHtml (data) {
 }
 
 function addMessage (data) {
-  document.getElementById('messages').append(getHtml(data))
+  const value = `<div class="message">
+    <div class="avatar">
+      <img src="${data.avatar}" width="40px" alt="avatar ${data.pseudo}">
+
+    </div>
+    <div class="content">
+      <div class="pseudo">
+        <strong>${data.pseudo}</strong>
+      </div>
+      ${data.message}
+    </div>
+  </div>
+  <hr>`
+  document.getElementById('messages').append(getHtml(value))
 }
 
 function addUser (data) {
@@ -26,24 +39,17 @@ const socket = io({
   }
 })
 
-socket.on('messages', function(value){
+socket.on('messages', function(data){
+  data.forEach(function (messages){
+    addMessage(messages)
+  })
+  console.log(data)
+})
+
+socket.on('message', function(value){
   //addMessage(value.avatar + value.pseudo + ': ' + value.message) // old
   //addMessage(`${value.avatar} ${value.pseudo}: ${value.message}`)
-  addMessage(`
-      <div class="message">
-        <div class="avatar">
-          <img src="${value.avatar}" width="40px" alt="avatar ${value.pseudo}">
-
-        </div>
-        <div class="content">
-          <div class="pseudo">
-            <strong>${value.pseudo}</strong>
-          </div>
-          ${value.message}
-        </div>
-      </div>
-      <hr>
-    `)
+  addMessage(value)
 })
 
 document.querySelector('[data-avatar]').setAttribute('src', avatar)
