@@ -147,3 +147,11 @@ body .content {
   cursor: pointer;
   font-weight: 600;
 }
+
+.message {
+  display: flex;
+}
+
+.content {
+  margin-left: 2rem;
+}
