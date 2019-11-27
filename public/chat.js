@@ -8,6 +8,7 @@ function getHtml (data) {
 }
 
 function addMessage (data) {
+  const date = new Date(data.date)
   const value = `<div class="message">
     <div class="avatar">
       <img src="${data.avatar}" width="40px" alt="avatar ${data.pseudo}">
@@ -16,6 +17,11 @@ function addMessage (data) {
     <div class="content">
       <div class="pseudo">
         <strong>${data.pseudo}</strong>
+        <div class='date'>
+          ${date.toLocaleDateString()}
+          à
+          ${date.toLocaleTimeString()}
+        </div>
       </div>
       ${data.message}
     </div>
@@ -24,9 +30,14 @@ function addMessage (data) {
   document.getElementById('messages').append(getHtml(value))
 }
 
+
 function addUser (data) {
-  document.getElementById('users').append(getHtml(data))
+  const value = `<img src="${data.avatar}" width="40px">
+    <strong>${data.pseudo}</strong>
+    `
+  document.getElementById('users').append(getHtml(value))
 }
+
 
 const urlParams = new URLSearchParams(window.location.search)
 const pseudo = urlParams.get('pseudo')
@@ -39,11 +50,19 @@ const socket = io({
   }
 })
 
+socket.on('clients', function(data){
+  document.getElementById('users').innerHTML = ''
+  data.forEach(function (client){
+    addUser(client)
+  })
+  //console.log(data)
+})
+
 socket.on('messages', function(data){
   data.forEach(function (messages){
     addMessage(messages)
   })
-  console.log(data)
+  //console.log(data)
 })
 
 socket.on('message', function(value){

@@ -57,7 +57,7 @@ body .content {
 
 .chat {
   background-color: #263238;
-  color: #fff;
+  /*color: #fff;*/
   overflow: hidden;
   height: 100%;
   display: flex;
@@ -66,9 +66,12 @@ body .content {
 
 .online .user,
 .chat .messages {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin: 0 -15px;
   padding: 0 15px;
+  width: 100%;
+  word-break: break-all;
 }
 
 .user {
@@ -154,4 +157,48 @@ body .content {
 
 .content {
   margin-left: 2rem;
+}
+
+.non{
+		animation: rainbow 2.5s linear;
+		animation-iteration-count: infinite;
+}
+
+@keyframes rainbow{
+		100%,0%{
+			color: rgb(255,0,0);
+		}
+		8%{
+			color: rgb(255,127,0);
+		}
+		16%{
+			color: rgb(255,255,0);
+		}
+		25%{
+			color: rgb(127,255,0);
+		}
+		33%{
+			color: rgb(0,255,0);
+		}
+		41%{
+			color: rgb(0,255,127);
+		}
+		50%{
+			color: rgb(0,255,255);
+		}
+		58%{
+			color: rgb(0,127,255);
+		}
+		66%{
+			color: rgb(0,0,255);
+		}
+		75%{
+			color: rgb(127,0,255);
+		}
+		83%{
+			color: rgb(255,0,255);
+		}
+		91%{
+			color: rgb(255,0,127);
+		}
 }
