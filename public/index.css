@@ -57,7 +57,7 @@ body .content {
 
 .chat {
   background-color: #263238;
-  /*color: #fff;*/
+  color: #fff;
   overflow: hidden;
   height: 100%;
   display: flex;
@@ -125,6 +125,12 @@ body .content {
   max-width: 300px;
 }
 
+@media (max-width: 767px) { 
+  .init .avatar img {
+    max-width: 100px;
+  }
+}
+
 .init form {
   display: flex;
   justify-content: center;
@@ -159,7 +165,7 @@ body .content {
   margin-left: 2rem;
 }
 
-.non{
+/*.non{
 		animation: rainbow 2.5s linear;
 		animation-iteration-count: infinite;
 }
@@ -201,4 +207,4 @@ body .content {
 		91%{
 			color: rgb(255,0,127);
 		}
-}
+}*/
