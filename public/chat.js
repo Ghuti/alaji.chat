@@ -1,4 +1,4 @@
-use function getHtml (data) {
+function getHtml (data) {
   if (typeof data === 'string') {
     const div = document.createElement('div')
     div.innerHTML = data

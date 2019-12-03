@@ -1,63 +1,24 @@
-const express = require('express')
-const app = express()
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
-const escapeHtml = require('escape-html')
+const express = require('express');
+const app = express();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const escapeHtml = require('escape-html');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/chat', {useNewUrlParser: true});
+
+require(__dirname + '/mongoose/collections')(mongoose);
+require(__dirname + '/mongoose/models')(mongoose);
+
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', function() {
+  require(__dirname + '/io')(io, mongoose);
+})
 
 app.use(express.static('public'))
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
-})
-
-//
-function sendClients () {
-  const clients = []
-  const connected = io.sockets.clients().connected
-  for (const index in connected){
-    const client = connected[index]
-    clients.push({
-      avatar: escapeHtml(client.handshake.query.avatar),
-      pseudo: escapeHtml(client.handshake.query.pseudo)
-    })
-    //console.log(clients)
-  }
-  io.emit('clients', clients)
-}
-
-//message dans tableau
-const messages = []
-
-//client co
-io.on('connection', function(socket) {
-
-  const pseudo = escapeHtml(socket.handshake.query.pseudo).substr(0, 30)
-  const avatar = escapeHtml(socket.handshake.query.avatar)
-
-  socket.handshake.query.pseudo = pseudo
-  socket.handshake.query.avatar = avatar
-
-  console.log(`${pseudo} s'est connecté !`)
-
-  sendClients()
-  socket.emit('messages', messages)
-
-  socket.on('message', function(value) {
-    const data = {
-      avatar: avatar,
-      pseudo: pseudo,
-      message: escapeHtml(value).substr(0, 1000),
-      date: Date.now()
-    }
-    messages.push(data)
-    io.emit('message', data)
-  })
-
-// client deco
-  socket.on('disconnect', function () {
-    console.log(`${pseudo} s'est déconnecté !`)
-    sendClients()
-  })
 })
 
 http.listen(3000, function() {
