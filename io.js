@@ -3,7 +3,7 @@ const escapeHtml = require('escape-html');
 module.exports = function (io, mongoose) {
 
   console.log("db OK")
-  
+
   function sendClients () {
     const clients = []
     const connected = io.sockets.clients().connected
@@ -31,6 +31,11 @@ module.exports = function (io, mongoose) {
       pseudo: "Yannick",
       email: "test@alalji.fr"
     }).save(console.log)**/
+
+    /*new mongoose.models.messages({
+      pseudo: "Yannick",
+      message: "DYLAN ENCULER!!!"
+    }).save(console.log)*/
 
     socket.handshake.query.pseudo = pseudo
     socket.handshake.query.avatar = avatar

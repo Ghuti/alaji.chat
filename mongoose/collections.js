@@ -17,6 +17,7 @@ module.exports = function (mongoose) {
     pseudo: {
       type: String,
     },
+    message: String,
     date: String,
     avatar: String,
     right: String,
